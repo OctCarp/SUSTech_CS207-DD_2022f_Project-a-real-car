@@ -4,20 +4,25 @@ module mode_choose (
     input choose,
     output reg[1:0] mode
     );
-    reg[1:0] state;
+    wire clk_ms;
+    
+    mydiv_ms ms(clk,clk_ms);
     
     parameter m1=2'b01,m2=2'b10,m3=2'b11,idle=2'b00;
     
-    always@(posedge choose, negedge power) begin
-       if(!power)begin
-            state=idle;
+    reg[10:0] cnt=0;
+    
+    always@(posedge clk_ms)begin
+            if(!power) begin
+                 mode<=idle;
+            end else if (!choose)begin
+                cnt<=0;
+            end else if (cnt == 500)begin
+                cnt<= 0;
+               if(mode>=2'b11)mode<=m1;
+               else mode<=mode+1;
+            end else begin
+               cnt<=cnt+1'b1;
+            end
         end
-        case(state)
-        idle: state=m1;
-        m1: state=m2;
-        m2: state=m3;
-        m3: state=m1;
-        endcase
-        mode=state;
-    end
 endmodule

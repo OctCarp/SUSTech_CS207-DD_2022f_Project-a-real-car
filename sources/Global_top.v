@@ -30,7 +30,8 @@ module Global_top(
     
     output[7:0] mile_seg,
     output[2:0] an,
-    output[1:0] mode_led
+    output[1:0] mode_led,
+    output[1:0] turn_led
     );
 
     wire turn_left_signal;
@@ -48,9 +49,12 @@ module Global_top(
     wire[1:0] mode;
     assign mode_led=mode;
     
+    
     wire clk_on;
     wire [7:0] ori_sig = {brake_in,clutch_in, destroy_barrier_in, place_barrier_in, turn_right_in, turn_left_in, move_backward_in, move_forward_in};
     wire [7:0] sig;
+    assign turn_led[0]=sig[2];
+    assign turn_led[1]=sig[3];
     wire [7:0] rec;
     press_ctrl pre(.clk(sys_clk_in),.rst_on(rst_on),.clk_on(clk_on));
     power_ctrl pow(.clk(sys_clk_in),.clk_on(clk_on),.rst_off(rst_off),.power(on),.m1_off(m1_off));
