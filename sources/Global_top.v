@@ -19,9 +19,6 @@ module Global_top(
     output left_detector_out,
     output right_detector_out,
     output back_detector_out,
-
-    input turn_l,
-    input turn_r,
     
     input choo_m,
     input rst_off,
