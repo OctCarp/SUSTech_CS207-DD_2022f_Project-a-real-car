@@ -4,6 +4,7 @@ module Manual_Driving(
     input clk,
     input [7:0] in,
     input [1:0] mode,
+    output reg [3:0] state=4'b0000,
     output [7:0] out,
     output  reg p
 );
@@ -19,7 +20,6 @@ reg activation;//
 reg[1:0] bf;
 reg[1:0] tlr;
 
-reg [3:0] state=4'b0000;
 reg [3:0] nextstate=4'b0000;
 parameter T0=4'b0000,
 S0=4'b0001, 

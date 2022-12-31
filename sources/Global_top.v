@@ -31,7 +31,13 @@ module Global_top(
     output[7:0] mile_seg,
     output[2:0] an,
     output[1:0] mode_led,
-    output[1:0] turn_led
+    output[1:0] turn_led,
+
+    output [3:0] red,
+    output [3:0] green,
+    output [3:0] blue,
+    output hs,
+    output vs
     );
 
     wire turn_left_signal;
@@ -47,9 +53,11 @@ module Global_top(
     wire m1_off;
     
     wire[1:0] mode;
+    wire [11:0] mile_bcd;
+    wire [3:0] m1_state;
     assign mode_led=mode;
     
-    
+
     wire clk_on;
     wire [7:0] ori_sig = {brake_in,clutch_in, destroy_barrier_in, place_barrier_in, turn_right_in, turn_left_in, move_backward_in, move_forward_in};
     wire [7:0] sig;
@@ -63,7 +71,7 @@ module Global_top(
     press_ctrl pre(.clk(sys_clk_in),.rst_on(rst_on),.clk_on(clk_on));
     power_ctrl pow(.clk(sys_clk_in),.clk_on(clk_on),.rst_off(rst_off),.power(on),.m1_off(m1_off));
     mode_choose choose(.clk(sys_clk_in),.choose(choo_m),.power(on),.mode(mode));
-    mile mile(.mode(mode), .clk(sys_clk_in), .sig(sig), .led_seg(mile_seg),.an(an));
+    mile mile(.mode(mode), .clk(sys_clk_in), .sig(sig), .led_seg(mile_seg),.an(an),.bcd_out(mile_bcd));
     
     Turn_led t_led(.clk(sys_clk_in),.turn_led(sig[3:2]),.turn_led_out(turn_led));
     
@@ -74,11 +82,12 @@ module Global_top(
     
     assign sig=sig1+sig2+sig3;
     
-    Manual_Driving drive(.clk(sys_clk_in),.in(ori_sig),.mode(mode),.out(sig1),.p(m1_off));
+    Manual_Driving drive(.clk(sys_clk_in),.in(ori_sig),.mode(mode),.out(sig1),.p(m1_off),.state(m1_state));
     Semi_Auto_Driving sdrive(.clk(sys_clk_in),.power(on),.in(ori_sig),.mode(mode),.rec(rec),.out(sig2)/*,.p(m1_off)*/);
     Auto_Driving adrive(.clk(sys_clk_in),.power(on),.mode(mode),.rec(rec),.out(sig3)/*,.p(m1_off)*/);
     
-    
+    vga v(.clk(sys_clk_in), .rst(1), .power(on), .mode(mode), .state(m1_state), .mile(mile_bcd), .r(red), .g(green), .b(blue), .vs(vs), .hs(hs));
+
     SimulatedDevice device(.sys_clk(sys_clk_in),.rst(0), .rx(rx_in), .tx(tx_out), .signal(sig), ._rec(rec));
     
 endmodule

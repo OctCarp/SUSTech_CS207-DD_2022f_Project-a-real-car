@@ -6,7 +6,8 @@ module mile(
     input[7:0] sig,
 
     output [7:0] led_seg,
-    output [2:0] an
+    output [2:0] an,
+    output wire [11:0] bcd_out
 );
     parameter idle = 0, on=1;
     reg state;
@@ -15,7 +16,8 @@ module mile(
     reg [11:0] bcd;
     wire bcd_valid;
     wire clk_2ms;
-    
+    assign bcd_out = bcd;
+
     mydiv_2ms dive_2ms(.clk(clk),.clk_2ms(clk_2ms));
     led led(.clk(clk_2ms),.rst(state),.in(bcd),.seg(led_seg),.an(an));
 
