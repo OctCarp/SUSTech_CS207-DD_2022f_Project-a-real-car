@@ -99,17 +99,25 @@ end else begin
     S1:begin
     rlbf=4'b0001;
         if (cnt ==30)begin
-            cnt = 0;
+            cnt = 0; 
+            
             if(right_detector&&!front_detector)begin
+               
                state=S1;
-            end else if(left_detector&&right_detector&&front_detector)begin
+            end else if(left_detector&&right_detector&&front_detector&&!back_detector)begin
                destroy_barrier_in=1'b1;
+               
+               state=S2;
+            end else if(left_detector&&right_detector&&front_detector&&back_detector) begin
                state=S2;
             end else if(!left_detector&&right_detector&&front_detector)begin
+               
                state=S3;
             end else if(!right_detector)begin
+               
                state=S4;
             end else begin
+               
                state=S1;
             end
         end else begin
@@ -123,8 +131,12 @@ end else begin
     
         if(cnt ==180)begin
             cnt= 0;
-            destroy_barrier_in=1'b0;
+            
             state=S1;
+        end else if(cnt==90)begin
+            cnt = cnt + 1'b1;
+            destroy_barrier_in=1'b0;
+            state=S2;
         end else begin
             cnt=cnt+1'd1; 
             state=S2;             
@@ -158,12 +170,8 @@ end else begin
     rlbf=4'b0001;
         if (cnt ==65)begin 
             place_barrier_in=1'b1;
-            cnt = cnt+1'b1;
-            state=S5;
-        end else if(cnt==70)begin
             cnt = 0;
-            place_barrier_in=1'b0;
-            state=S1;
+            state=S6;
         end else begin
             cnt = cnt+1'b1;
             state=S5;
@@ -171,6 +179,15 @@ end else begin
     end
     
     S6:begin
+    rlbf=4'b0000;
+        if(cnt==60)begin
+            cnt = 0;
+            place_barrier_in=1'b0;
+            state=S1;
+        end else begin
+            cnt = cnt + 1'b1;
+            state=S6;
+        end
     
     
     end
