@@ -9,7 +9,7 @@ module SimulatedDevice(
     input[7:0] signal,
     output[7:0] _rec
     );
-    
+  
     uart_top md(.clk(sys_clk), .rst(0), .data_in(signal), .data_rec(_rec), .rxd(rx), .txd(tx));
     
 endmodule

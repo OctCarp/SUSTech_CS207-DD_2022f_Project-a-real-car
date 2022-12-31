@@ -2,10 +2,10 @@
 
 module Manual_Driving(
     input clk,
-    input [7:0] in,//
-    input [1:0] mode,//
-    output [7:0] out,//
-    output  reg p//
+    input [7:0] in,
+    input [1:0] mode,
+    output [7:0] out,
+    output  reg p
 );
 wire throttle,clutch,brake,reversegear,turnleft,turnright;
 assign throttle=in[0];//
@@ -19,16 +19,16 @@ reg activation;//
 reg[1:0] bf;
 reg[1:0] tlr;
 
-reg [3:0] state=4'b0000;//
-reg [3:0] nextstate=4'b0000;//
-parameter T0=4'b0000,// 
-S0=4'b0001, // 
-S1=4'b0010, // 
-S2=4'b0011, // 
-S3=4'b0100, // switch
-S4=4'b0101, //reverse
-S5=4'b0110, //need throttle
-S6=4'b0111; //reverse move
+reg [3:0] state=4'b0000;
+reg [3:0] nextstate=4'b0000;
+parameter T0=4'b0000,
+S0=4'b0001, 
+S1=4'b0010, 
+S2=4'b0011, 
+S3=4'b0100, 
+S4=4'b0101, 
+S5=4'b0110, 
+S6=4'b0111; 
 
 reg [1:0] LR;
 parameter
@@ -43,11 +43,13 @@ if(mode==2'b01)
     activation=1'b1;
 else
     activation=1'b0;
+    
 end
 
-always@(posedge clk)//
+always@(posedge clk)
     if(!activation) begin
         state=T0;
+        bf=2'b00;
         p=1;
     end else
     case (state)
@@ -90,7 +92,7 @@ always@(posedge clk)//
         end else if(clutch) begin
            state=S3;p=1;
         end else if(!throttle) begin
-         state<=S1; p=1;
+         state=S1; p=1;
         end
     end
     
@@ -130,15 +132,16 @@ endcase
 always@(posedge clk) begin
    if(!activation) begin
         LR=q1;
+        tlr=2'b00;
     end else if(state!=T0||state!=S0||state!=S5) begin
     case (LR)
     q1:begin
         tlr=2'b00;
         if(turnleft&&turnright) begin
         LR=q4;
-        end else if(turnleft&&!turnright) begin
-        LR=q3;
         end else if(!turnleft&&turnright) begin
+        LR=q3;
+        end else if(turnleft&&!turnright) begin
         LR=q2;
         end else if(!turnleft&&!turnright) begin
         LR=q1;
@@ -148,9 +151,9 @@ always@(posedge clk) begin
         tlr=2'b01;
         if(turnleft&&turnright) begin
         LR=q4;
-        end else if(turnleft&&!turnright) begin
-        LR=q3;
         end else if(!turnleft&&turnright) begin
+        LR=q3;
+        end else if(turnleft&&!turnright) begin
         LR=q2;
         end else if(!turnleft&&!turnright) begin
         LR=q1;
@@ -160,9 +163,9 @@ always@(posedge clk) begin
         tlr=2'b10;
         if(turnleft&&turnright) begin
         LR=q4;
-        end else if(turnleft&&!turnright) begin
-        LR=q3;
         end else if(!turnleft&&turnright) begin
+        LR=q3;
+        end else if(turnleft&&!turnright) begin
         LR=q2;
         end else if(!turnleft&&!turnright) begin
         LR=q1;
@@ -172,9 +175,9 @@ always@(posedge clk) begin
         tlr=2'b11;
         if(turnleft&&turnright) begin
         LR=q4;
-        end else if(turnleft&&!turnright) begin
-        LR=q3;
         end else if(!turnleft&&turnright) begin
+        LR=q3;
+        end else if(turnleft&&!turnright) begin
         LR=q2;
         end else if(!turnleft&&!turnright) begin
         LR=q1;

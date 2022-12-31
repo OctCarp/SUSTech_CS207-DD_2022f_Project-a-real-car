@@ -22,7 +22,7 @@ module mile(
     always @(posedge clk_2ms) begin
         case (state)
             idle: if (mode==2'b01) state<=on;
-            on : if(mode!=2'b01) state<=idle;
+            on : if(mode==2'b00) state<=idle;
         endcase
     end
 
@@ -34,7 +34,7 @@ module mile(
             cnt_mile<=cnt_mile+1;
         end else if(sig[0]) cnt_2ms<=cnt_2ms+2'b10;
         else if(sig[1]) cnt_2ms<=cnt_2ms+1'b1;
-      end
+      end  
      
      reg[3:0] Hundreds,Tens,Ones;
      integer i;

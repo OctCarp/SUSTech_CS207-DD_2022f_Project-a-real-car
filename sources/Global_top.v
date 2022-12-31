@@ -53,20 +53,31 @@ module Global_top(
     wire clk_on;
     wire [7:0] ori_sig = {brake_in,clutch_in, destroy_barrier_in, place_barrier_in, turn_right_in, turn_left_in, move_backward_in, move_forward_in};
     wire [7:0] sig;
-    assign turn_led[0]=sig[2];
-    assign turn_led[1]=sig[3];
+    wire [7:0] sig1;
+    wire [7:0] sig2;
+    wire [7:0] sig3;
+    
+    //assign turn_led[0]=sig[2];
+    //assign turn_led[1]=sig[3];
     wire [7:0] rec;
     press_ctrl pre(.clk(sys_clk_in),.rst_on(rst_on),.clk_on(clk_on));
     power_ctrl pow(.clk(sys_clk_in),.clk_on(clk_on),.rst_off(rst_off),.power(on),.m1_off(m1_off));
     mode_choose choose(.clk(sys_clk_in),.choose(choo_m),.power(on),.mode(mode));
     mile mile(.mode(mode), .clk(sys_clk_in), .sig(sig), .led_seg(mile_seg),.an(an));
     
-    Manual_Driving drive(.clk(sys_clk_in),.in(ori_sig),.mode(mode),.out(sig),.p(m1_off));
+    Turn_led t_led(.clk(sys_clk_in),.turn_led(sig[3:2]),.turn_led_out(turn_led));
     
     assign front_detector_out = rec[0];
     assign left_detector_out = rec[1];
     assign right_detector_out = rec[2];
     assign back_detector_out = rec[3];
+    
+    assign sig=sig1+sig2+sig3;
+    
+    Manual_Driving drive(.clk(sys_clk_in),.in(ori_sig),.mode(mode),.out(sig1),.p(m1_off));
+    Semi_Auto_Driving sdrive(.clk(sys_clk_in),.power(on),.in(ori_sig),.mode(mode),.rec(rec),.out(sig2)/*,.p(m1_off)*/);
+    Auto_Driving adrive(.clk(sys_clk_in),.power(on),.mode(mode),.rec(rec),.out(sig3)/*,.p(m1_off)*/);
+    
     
     SimulatedDevice device(.sys_clk(sys_clk_in),.rst(0), .rx(rx_in), .tx(tx_out), .signal(sig), ._rec(rec));
     

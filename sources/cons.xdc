@@ -35,9 +35,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports turn_left_in]
 set_property IOSTANDARD LVCMOS33 [get_ports turn_right_in]
 set_property IOSTANDARD LVCMOS33 [get_ports rst_off]
 
-set_property PACKAGE_PIN G4 [get_ports {turn_led[0]}]
+set_property PACKAGE_PIN F6 [get_ports {turn_led[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {turn_led[0]}]
-set_property PACKAGE_PIN F6 [get_ports {turn_led[1]}]
+set_property PACKAGE_PIN G4 [get_ports {turn_led[1]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {turn_led[1]}]
 
 set_property PACKAGE_PIN K1 [get_ports on]
