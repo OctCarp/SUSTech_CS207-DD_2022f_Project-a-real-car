@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2022/12/25 22:35:08
-// Design Name: 
-// Module Name: Semi_Auto_Driving
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module Semi_Auto_Driving(
     input clk,
@@ -27,7 +7,6 @@ module Semi_Auto_Driving(
     input [1:0] mode,
     input [7:0] rec,
     output [7:0] out
-    //output reg p
 );
 wire gofront,goback,turnleft,turnright;
 assign gofront=in[0];
@@ -73,11 +52,10 @@ end else begin
     if(!activation)begin
         state=S0;
         rlbf=4'b0000;
-        //p=1;
     end else
     begin
-    //p=1;
     case (state)
+    
     S0:begin
     rlbf=4'b0000;
         if(gofront)begin
@@ -152,8 +130,5 @@ end else begin
     end  
 end
 assign out[3:0]=rlbf;  
-
-  
-  
 
 endmodule

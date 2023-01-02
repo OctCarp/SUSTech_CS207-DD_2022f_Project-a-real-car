@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2022/12/27 00:36:30
-// Design Name: 
-// Module Name: Auto_Driving
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module Auto_Driving(
     input clk,
@@ -26,7 +6,6 @@ module Auto_Driving(
     input [1:0] mode,
     input [7:0] rec,
     output [7:0] out
-    //output reg p
 );
 
 wire front_detector;
@@ -69,27 +48,26 @@ end else begin
     if(!activation)begin
         state=S0;
         rlbf=4'b0000;
-        //p=1;
     end else
     begin
-    //p=1;
     case (state)
     S0:begin
     rlbf=4'b0000;
-        if(cnt ==250)begin
-            cnt= 0;
-            /*if(right_detector&&!front_detector)begin
-               state=S1;
-            end else if(left_detector&&right_detector&&front_detector)begin
-               state=S2;
-            end else if(!left_detector&&right_detector&&front_detector)begin
-               state=S3;
-            end else if(!right_detector)begin
-               state=S4;
-            end else begin
-               state=S1;
-            end*/
-            state=S1;   
+        if(cnt ==100)begin          
+             if(!front_detector)begin  
+                cnt = 0;    
+                state=S1;
+             end else if(!right_detector)begin
+                cnt = 0;               
+                state=S4;
+             end else if(!left_detector)begin        
+                cnt = 0;      
+                state=S3;
+             end else begin   
+                destroy_barrier_in=1'b1;
+                cnt = 0;         
+                state=S2;                
+             end         
         end else begin
             cnt=cnt+1'd1; 
             state=S0;             
@@ -99,27 +77,15 @@ end else begin
     S1:begin
     rlbf=4'b0001;
         if (cnt ==30)begin
-            cnt = 0; 
-            
-            if(right_detector&&!front_detector)begin
-               
-               state=S1;
-            end else if(left_detector&&right_detector&&front_detector&&!back_detector)begin
-               destroy_barrier_in=1'b1;
-               
-               state=S2;
-            end else if(left_detector&&right_detector&&front_detector&&back_detector) begin
-               state=S2;
-            end else if(!left_detector&&right_detector&&front_detector)begin
-               
-               state=S3;
-            end else if(!right_detector)begin
-               
-               state=S4;
+            if(front_detector)begin
+                state=S0;
+            end else if(!right_detector) begin
+                cnt = 0;
+                state=S4;
             end else begin
-               
-               state=S1;
-            end
+                
+                state=S1;
+            end 
         end else begin
             cnt = cnt+1'b1;
             state=S1;
@@ -133,7 +99,7 @@ end else begin
             cnt= 0;
             
             state=S1;
-        end else if(cnt==90)begin
+        end else if(cnt==100)begin
             cnt = cnt + 1'b1;
             destroy_barrier_in=1'b0;
             state=S2;
@@ -168,7 +134,7 @@ end else begin
     
     S5:begin
     rlbf=4'b0001;
-        if (cnt ==65)begin 
+        if (cnt ==70)begin 
             place_barrier_in=1'b1;
             cnt = 0;
             state=S6;
@@ -180,16 +146,14 @@ end else begin
     
     S6:begin
     rlbf=4'b0000;
-        if(cnt==60)begin
-            cnt = 0;
+        if(cnt==50)begin   
             place_barrier_in=1'b0;
-            state=S1;
+            cnt = 0;
+            state=S0;
         end else begin
             cnt = cnt + 1'b1;
             state=S6;
         end
-    
-    
     end
     endcase
     end  
