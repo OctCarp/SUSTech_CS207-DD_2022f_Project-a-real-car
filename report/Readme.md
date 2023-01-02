@@ -144,8 +144,12 @@
 
 ### 项目设计
 
+#### 1. 顶层模块状态流程图
 
-#### 1. 主要模块设计
+<img src="pics/TOP_state_diagram.png" alt="TOP_state_diagram" style="zoom:200%;" />
+
+
+#### 2. 主要模块设计
 
 - #####  [**Global_top**](../sources/Global_top.v)
 
