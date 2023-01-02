@@ -21,7 +21,7 @@ module mile_data_ctrl(
 		if (!rst) begin
 			m_d_data <= 6'b11_1110;
 		end
-        else if (mode != 2'b01) begin
+        else if (mode == 2'b00) begin
 		    m_d_data <= 6'b11_1110;
         end
         else begin

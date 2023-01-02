@@ -9,18 +9,17 @@ module Manual_Driving(
     output  reg p
 );
 wire throttle,clutch,brake,reversegear,turnleft,turnright;
-assign throttle=in[0];//
-assign clutch=in[6];//
-assign brake=in[7];//
-assign reversegear=in[1];//
+assign throttle=in[0];
+assign clutch=in[6];
+assign brake=in[7];
+assign reversegear=in[1];
 assign turnleft=in[2];
 assign turnright=in[3];
 
-reg activation;//
+reg activation;
 reg[1:0] bf;
 reg[1:0] tlr;
 
-reg [3:0] nextstate=4'b0000;
 parameter T0=4'b0000,
 S0=4'b0001, 
 S1=4'b0010, 
@@ -77,6 +76,8 @@ always@(posedge clk)
     bf=2'b00;
         if(clutch) begin 
             state=S3;p=1;
+        end else if(reversegear)begin
+            state=T0;p=0;
         end else if(throttle) begin
             state=S2;p=1;
         end

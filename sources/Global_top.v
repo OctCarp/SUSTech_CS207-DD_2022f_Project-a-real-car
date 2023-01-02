@@ -62,8 +62,6 @@ module Global_top(
     wire [7:0] sig2;
     wire [7:0] sig3;
     
-    //assign turn_led[0]=sig[2];
-    //assign turn_led[1]=sig[3];
     wire [7:0] rec;
     press_ctrl pre(.clk(sys_clk_in),.rst_on(rst_on),.clk_on(clk_on));
     power_ctrl pow(.clk(sys_clk_in),.clk_on(clk_on),.rst_off(rst_off),.power(on),.m1_off(m1_off));
@@ -80,8 +78,8 @@ module Global_top(
     assign sig=sig1+sig2+sig3;
     
     Manual_Driving drive(.clk(sys_clk_in),.in(ori_sig),.mode(mode),.out(sig1),.p(m1_off),.state(m1_state));
-    Semi_Auto_Driving sdrive(.clk(sys_clk_in),.power(on),.in(ori_sig),.mode(mode),.rec(rec),.out(sig2)/*,.p(m1_off)*/);
-    Auto_Driving adrive(.clk(sys_clk_in),.power(on),.mode(mode),.rec(rec),.out(sig3)/*,.p(m1_off)*/);
+    Semi_Auto_Driving sdrive(.clk(sys_clk_in),.power(on),.in(ori_sig),.mode(mode),.rec(rec),.out(sig2));
+    Auto_Driving adrive(.clk(sys_clk_in),.power(on),.mode(mode),.rec(rec),.out(sig3));
     
     vga v(.clk(sys_clk_in), .rst(1), .power(on), .mode(mode), .state(m1_state), .mile(mile_bcd), .r(red), .g(green), .b(blue), .vs(vs), .hs(hs));
 

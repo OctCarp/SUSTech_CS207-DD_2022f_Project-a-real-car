@@ -14,13 +14,11 @@ module vga(
     output vs
     );
 
-	// 显示器可显示区域
 	parameter UP_BOUND = 31;
 	parameter DOWN_BOUND = 510;
 	parameter LEFT_BOUND = 144;
 	parameter RIGHT_BOUND = 783;
 
-	// 屏幕中央两个字符的显示区�?
 	parameter up_pos = 267;
 	parameter down_pos = 274;
 	parameter left_pos = 429;
@@ -168,7 +166,6 @@ module vga(
 		.col6(p[69])
 	);
 	
-	// 获得像素时钟25MHz
 	assign pclk = count[1];
 	always @ (posedge clk or negedge rst)
 	begin
@@ -178,7 +175,6 @@ module vga(
 			count <= count+1;
 	end
 	
-	// 列计数与行同�?
 	assign hs = (hcount < 96) ? 0 : 1;
 	always @ (posedge pclk or negedge rst)
 	begin
@@ -190,7 +186,6 @@ module vga(
 			hcount <= hcount+1;
 	end
 	
-	// 行计数与场同�?
 	assign vs = (vcount < 2) ? 0 : 1;
 	always @ (posedge pclk or negedge rst)
 	begin
@@ -206,7 +201,6 @@ module vga(
 			vcount <= vcount;
 	end
 	
-	// 设置显示信号�?
 	always @ (posedge pclk or negedge rst)
 	begin
 		if (!rst) begin

@@ -24,7 +24,7 @@ reg activation;
 reg [3:0] rlbf;
 
 reg [3:0] state=4'b0000;
-reg [3:0] nextstate=4'b0000;
+
 parameter S0=4'b0000,S1=4'b0001,S2=4'b0010,S3=4'b0100,S4=4'b1000,S5=4'b1001,S6=4'b1010;
 
 reg[8:0] cnt=0;
@@ -96,8 +96,7 @@ end else begin
     rlbf=4'b0100;
     
         if(cnt ==180)begin
-            cnt= 0;
-            
+            cnt= 0;            
             state=S1;
         end else if(cnt==100)begin
             cnt = cnt + 1'b1;
