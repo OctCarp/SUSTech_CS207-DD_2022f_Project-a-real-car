@@ -10,13 +10,13 @@
 
 ### Construction:
 
-[**sources**](sources/) : Source code in Verilog
+[**sources/**](sources/) : Source code in Verilog
 
-[**#other_docs**](#other_docs/) : Other related documents, including original demo, and the car simulation program in .zip
+[**Requirements_Doc/**](Requirements_Doc/) : Other requirements documents, including original demo, and the car simulation program in .zip
 
-[**report**](report/) : Our project report (In Chinese)
+[**report/**](report/) : Our project report (In Chinese)
 
-[**DL_2022F_project_introduction**](DL_2022F_project_introduction.pdf) : Requirements Document
+[**DL_2022F_project_introduction**](DL_2022F_project_introduction.pdf) : Main Requirements Document
 
 ### How to Use It:
 
@@ -24,7 +24,7 @@
 
 1. Use EDA (Xilinx Vivado is recommended), open `sources/`, then add the `cons.xdc` as **constrains**, others as **design sources**.
 2. In EDA, run synthesis, implementation, then generate bitstream, and **program EGO1**.
-3. Unzip the [**car simulation program**](#_other_docs/CarSimulation.zip), open the `DriveCar.exe`, then you can drive the car! Make sure that you **turn off bluetooth** in your PC, or there might be some problems with the **UART**.
+3. Unzip the [**car simulation program**](Requirements_Doc/CarSimulation_bugFix.zip), open the `DriveCar.exe`, then you can drive the car! Make sure that you **turn off bluetooth** in your PC, or there might be some problems with the **UART**.
 
 ### Feature Illustration
 
