@@ -1,6 +1,6 @@
 # SUSTech_CS207-DD_2022f_Project-a-real-car
 
-### Project of Digital Logic Design: a "real car"
+### Project of Digital Logic Design: a "real car" (Full Score)
 
 ### Contributors：
 
